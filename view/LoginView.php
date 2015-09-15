@@ -10,20 +10,36 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	
 
 	/**
 	 * Create HTTP response
 	 *
 	 * Should be called after a login attempt has been determined
 	 *
-	 * @return  void BUT writes to standard output and cookies!
+	 * @return void BUT writes to standard output and cookies!
 	 */
+	 
+	 //GJORT SENAST:
+	 //	usecase 1.3 username/password is missing :))))))))
+	 
 	public function response() {
-		$message = '';
+
+		
+		if (isset($_POST['LoginView::Login'])) {
+			$message = 'isset';
+			if ($_POST['LoginView::UserName'] == '') { //isset($_POST['LoginView::UserName']) funkade inte
+				$message = 'Username is missing';
+			} else {
+				if ($_POST['LoginView::Password'] == '') {
+					$message = 'Password is missing';
+				}		
+			}
+		} else {
+			$message = '';
+		}
 		
 		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
+		// $response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
 
@@ -34,7 +50,7 @@ class LoginView {
 	*/
 	private function generateLogoutButtonHTML($message) {
 		return '
-			<form  method="post" >
+			<form method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
@@ -48,7 +64,7 @@ class LoginView {
 	*/
 	private function generateLoginFormHTML($message) {
 		return '
-			<form method="post" > 
+			<form method="post"> 
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
 					<p id="' . self::$messageId . '">' . $message . '</p>
