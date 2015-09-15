@@ -23,10 +23,11 @@ class LoginView {
 	 //	usecase 1.3 username/password is missing :))))))))
 	 
 	public function response() {
-
+		
+		
 		
 		if (isset($_POST['LoginView::Login'])) {
-			$message = 'isset';
+			$message = $_POST[self::$name];
 			if ($_POST['LoginView::UserName'] == '') { //isset($_POST['LoginView::UserName']) funkade inte
 				$message = 'Username is missing';
 			} else {
@@ -88,5 +89,10 @@ class LoginView {
 	private function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 	}
+	
+	public function didUserPressLogin() {
+		return isset($_POST[self::$login]);
+	}
+	
 	
 }

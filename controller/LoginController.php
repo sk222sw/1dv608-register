@@ -9,4 +9,12 @@ class LoginController {
         $this->model = $model;
         $this->view = $view;
     }
+    
+    public function doLogin($userName, $password) {
+        if ($this->view->didUserPressLogin()) {
+
+        }
+    }
+    
+    
 }

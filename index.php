@@ -4,6 +4,7 @@ require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 require_once('controller/LoginController.php');
+require_once('model/User.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -14,6 +15,11 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
+$user = new \model\User('Admin', 'Password');
+
+$loginController = new LoginController($user, $v);
+
+$loginController->doLogin('admin', 'password');
 
 
 $lv->render(false, $v, $dtv);
