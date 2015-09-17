@@ -19,15 +19,11 @@ class LoginView {
 	 * @return void BUT writes to standard output and cookies!
 	 */
 	 
-	 //GJORT SENAST:
-	 //	usecase 1.3 username/password is missing :))))))))
-	 
 	public function response() {
-		
+		$message = '';
 		
 		
 		if (isset($_POST['LoginView::Login'])) {
-			$message = $_POST[self::$name];
 			if ($_POST['LoginView::UserName'] == '') { //isset($_POST['LoginView::UserName']) funkade inte
 				$message = 'Username is missing';
 			} else {
@@ -94,5 +90,12 @@ class LoginView {
 		return isset($_POST[self::$login]);
 	}
 	
+	public function getUserName() {
+		return $_POST[self::$name];
+	}
+	
+	public function getPassword() {
+		return $_POST[self::$password];
+	}
 	
 }
