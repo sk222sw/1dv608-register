@@ -16,7 +16,8 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
-$loginController = new LoginController($v);
+$loginModel = new LoginModel();
+$loginController = new LoginController($v, $loginModel);
 $loginController->doLogin();
-echo 'test';
+
 $lv->render(false, $v, $dtv);
