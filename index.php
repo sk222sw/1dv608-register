@@ -18,5 +18,5 @@ $lv = new LayoutView();
 
 $loginController = new LoginController($v);
 $loginController->doLogin();
-
+echo 'test';
 $lv->render(false, $v, $dtv);
