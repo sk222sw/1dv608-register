@@ -18,6 +18,8 @@ $lv = new LayoutView();
 
 $loginModel = new LoginModel();
 $loginController = new LoginController($v, $loginModel);
-$loginController->doLogin();
+// $loginController->doLogin();
 
-$lv->render(false, $v, $dtv);
+$isLoggedIn = $loginController->doLogin();
+
+$lv->render($isLoggedIn, $v, $dtv);

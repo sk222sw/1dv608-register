@@ -8,8 +8,8 @@ class User {
     private $password;
     
     public function __construct($userName, $password) {
-        assert(is_string($userName) && strlen($userName) > 0);
-        assert(is_string($password) && strlen($password) > 0);
+        // assert(is_string($userName) && strlen($userName) > 0);
+        // assert(is_string($password) && strlen($password) > 0);
 
         $this->userName = $userName;
         $this->password = $password;

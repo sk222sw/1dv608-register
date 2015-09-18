@@ -22,6 +22,18 @@ class LoginView {
 	public function response() {
 		$message = '';
 		
+		switch (self::$messageId) {
+			case 1:
+				$message = 'Username is missing';
+				break;
+			case 2:
+				$message = 'Password is missing';
+				break;
+			default:
+				$message = '';
+				break;
+		}
+
 		$response = $this->generateLoginFormHTML($message);
 		// $response .= $this->generateLogoutButtonHTML($message);
 		return $response;
@@ -83,6 +95,14 @@ class LoginView {
 	
 	public function getPassword() {
 		return $_POST[self::$password];
+	}
+	
+	public function getMessageId() {
+		return $_POST[self::$messageId];
+	}
+	
+	public function setMessageId($id) {
+		self::$messageId = $id;
 	}
 	
 }

@@ -3,13 +3,20 @@
 class LoginModel {
     
     private $isLoggedIn = false;
-    private $storedUserName = 'Admin';
-    private $storedPassword = 'Password';
+    private $storedUserName = 'a';
+    private $storedPassword = 'p';
     
     public function testLogin($user) {
-        if ($user->getUserName() === $this->storedUserName) {
-            return true;
-        }
-        return false;
+        return  $user->getUserName() === $this->storedUserName &&
+                $user->getPassword() === $this->storedPassword;
     }
+    
+    public function testUserName($user) {
+        return $user->getUserName() != '';
+    }
+    
+    public function testPassword($user) {
+        return $user->getPassword() != '';
+    }
+    
 }

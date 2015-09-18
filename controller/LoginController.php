@@ -18,10 +18,20 @@ class LoginController {
             
             $user = new \model\User($userName, $password);
 
-            echo $this->loginModel->testLogin($user);
+            if (!$this->loginModel->testUserName($user)) {
+                $this->view->setMessageId(1);
+                return false;
+            }
 
+            else if (!$this->loginModel->testPassword($user)) {
+                $this->view->setMessageId(2);
+                return false;
+            }
+
+            $this->view->setMessageId(0);
+            return $this->loginModel->testLogin($user);
+                        
         }
     }
-    
-    
+
 }
