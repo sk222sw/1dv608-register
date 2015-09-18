@@ -9,7 +9,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-
+	private static $message = '';
 
 	/**
 	 * Create HTTP response
@@ -19,23 +19,14 @@ class LoginView {
 	 * @return void BUT writes to standard output and cookies!
 	 */
 	 
-	public function response() {
-		$message = '';
+	public function response($isLoggedIn) {
+		echo 'dags att ta tag i sächowner nju';
 		
-		switch (self::$messageId) {
-			case 1:
-				$message = 'Username is missing';
-				break;
-			case 2:
-				$message = 'Password is missing';
-				break;
-			default:
-				$message = '';
-				break;
-		}
-
-		$response = $this->generateLoginFormHTML($message);
-		// $response .= $this->generateLogoutButtonHTML($message);
+		if ($isLoggedIn) {
+			$response = $this->generateLogoutButtonHTML(self::$message);				
+		}	else {
+			$response = $this->generateLoginFormHTML(self::$message);
+		}	
 		return $response;
 	}
 
@@ -103,6 +94,10 @@ class LoginView {
 	
 	public function setMessageId($id) {
 		self::$messageId = $id;
+	}
+	
+	public function setMessage($messageText) {
+		self::$message = $messageText;
 	}
 	
 }

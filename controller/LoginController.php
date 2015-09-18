@@ -12,25 +12,19 @@ class LoginController {
     
     public function doLogin() {
         if ($this->view->didUserPressLogin()) {
-            
-            $userName = $this->view->getUserName();            
-            $password = $this->view->getPassword();
-            
-            $user = new \model\User($userName, $password);
+            try {
+                $userName = $this->view->getUserName();            
+                $password = $this->view->getPassword();
+                $user = new \model\User($userName, $password);
+                
+                if ($this->loginModel->testLogin($user)) {
+                    
+                    return true;
+                } 
 
-            if (!$this->loginModel->testUserName($user)) {
-                $this->view->setMessageId(1);
-                return false;
+            } catch (Exception $e) {
+                $this->view->setMessage($e->getMessage());
             }
-
-            else if (!$this->loginModel->testPassword($user)) {
-                $this->view->setMessageId(2);
-                return false;
-            }
-
-            $this->view->setMessageId(0);
-            return $this->loginModel->testLogin($user);
-                        
         }
     }
 

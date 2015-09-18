@@ -7,16 +7,12 @@ class LoginModel {
     private $storedPassword = 'p';
     
     public function testLogin($user) {
-        return  $user->getUserName() === $this->storedUserName &&
-                $user->getPassword() === $this->storedPassword;
+        if ($user->getUserName() === $this->storedUserName &&
+            $user->getPassword() === $this->storedPassword) {
+            return true;
+        } else {
+            throw new \Exception('Wrong username is password');
+        }
+        return false;    
     }
-    
-    public function testUserName($user) {
-        return $user->getUserName() != '';
-    }
-    
-    public function testPassword($user) {
-        return $user->getPassword() != '';
-    }
-    
 }
