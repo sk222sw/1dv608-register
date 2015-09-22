@@ -22,11 +22,21 @@ class LoginView {
 	 */
 
 	public function response($isLoggedIn) {
+			
 		if ($isLoggedIn) {
+			if ($_POST) {
+				$this->setHeader();
+			} 
 			$response = $this->generateLogoutButtonHTML(self::$message);
-		} else {
-			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
+		} 
+		
+		else if($_POST) {
+			$this->setHeader();
 		}
+		else {
+			self::$enteredName = $this->getUserName();
+			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
+		} 
 		return $response;
 	}
 
@@ -83,12 +93,13 @@ class LoginView {
 	public function didUserPressLogout() {
 		if (isset($_POST[self::$logout])) {
 			$_SESSION['loggedIn'] = false;
-			self::$message = 'Bye bye!';
 		}
 	}
 	
 	public function getUserName() {
-		return $_POST[self::$name];
+		if (isset($_POST[self::$name])) {
+			return $_POST[self::$name];
+		}
 	}
 	
 	public function getPassword() {
@@ -105,6 +116,15 @@ class LoginView {
 	
 	public function setMessage($messageText) {
 		self::$message = $messageText;
+	}
+	
+	public function setHeader() {
+		header("Location: " . $_SERVER['REQUEST_URI']);
+		exit();
+	}
+	
+	public function setLogoutMessage() {
+		self::$message = 'Bye bye!';
 	}
 	
 }

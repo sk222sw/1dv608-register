@@ -8,24 +8,24 @@ require_once('view/LayoutView.php');
 require_once('controller/LoginController.php');
 require_once('model/LoginModel.php');
 require_once('model/User.php');
-// require_once('model/SessionModel.php');
+require_once('model/SessionModel.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-// $sessionModel = new model\SessionModel();
-$loginModel = new model\LoginModel();
+//CREATE MODEL OBJECTS
+$sessionModel = new model\SessionModel();
+$loginModel = new model\LoginModel($sessionModel);
 
 //CREATE OBJECTS OF THE VIEWS
 $v = new LoginView($loginModel);
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
-$loginController = new LoginController($v, $loginModel);
-
+//CREATE CONTROLLER OBJECTS
+$loginController = new LoginController($v, $loginModel, $sessionModel);
 
 $isLoggedIn = $loginController->startLoginStuff();
-
 
 $lv->render($isLoggedIn, $v, $dtv);

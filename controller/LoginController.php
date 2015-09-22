@@ -5,9 +5,10 @@ class LoginController {
     private $view;
     private $model;
     
-    public function __construct($view, $loginModel) {
+    public function __construct($view, $loginModel, $sessionModel) {
         $this->view = $view;
         $this->loginModel = $loginModel;
+        $this->sessionModel = $sessionModel;
     }
 
     public function startLoginStuff() {
@@ -16,10 +17,14 @@ class LoginController {
             if ($this->loginModel->isUserLoggedIn()) {
                 return true;
             }
-        } else {
+        } else if($this->view->didUserPressLogin()) {
             return $this->doLogin();
-        } return false;
-        
+        } 
+        else if ($this->loginModel->isUserLoggedIn()) {
+            $this->doLogout();
+        }
+        // $this->view->setLogoutMessage();
+        return false;
     }
     
     public function doLogin() {
@@ -28,8 +33,8 @@ class LoginController {
                 $password = $this->view->getPassword();
                 $user = new \model\User($userName, $password);
                 
-                if ($this->loginModel->testLogin($user) == true) {
-                    $_SESSION['loggedIn'] = true;
+                if ($this->loginModel->testLogin($user)) {
+                    $this->sessionModel->setSessionValue(true);
                     return true;
                 }
 
@@ -40,7 +45,8 @@ class LoginController {
     }
 
     public function doLogout(){
-        return false;        
+        // $this->view->setLogoutMessage();
+        // return false;        
     }
 
 }

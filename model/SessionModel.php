@@ -2,35 +2,21 @@
 
 namespace model;
 
-class SessionModels {
+class SessionModel {
     
-    private $sessionValue;
-    private $sessionName = 'loggedIn';
+    private $sessionValue = false;
+    private static $sessionName = 'loggedIn';
     
-    // public function __construct() {
-    //     session_start();
-    // }
+    public function __construct() {
+        
+    }
     
-    public function createSession($isLoggedIn) {
-        echo 'session craeted in session model';
-        $_SESSION[$this->sessionName] = $isLoggedIn;
+    public function setSessionValue($value) {
+        $_SESSION[self::$sessionName] = $value;
     }
-
-    public function getSession() {
-        if(isset($_SESSION['loggedIn'])) {
-            if ($_SESSION[$this->sessionName] == true) {
-                return true;            
-            }
-        }
-        return false;
-    }
-
-    public function removeSession() {
-        $_SESSION[self::$sessionName] == false;
-    }
-
-    public function existsSession($sessionName) {
-        return isset($_SESSION[$sessionName]);
+    
+    public function getSessionValue() {
+        return $this->sessionValue;
     }
     
 }

@@ -9,9 +9,9 @@ class LoginModel {
     private $storedPassword = 'p';
     private $session;
     
-    // public function __construct(\model\SessionModel $session) {
-    //     $this->session = $session;
-    // }
+    public function __construct(\model\SessionModel $session) {
+        $this->session = $session;
+    }
     
     public function testLogin($user) {
         if ($user->getUserName() === $this->storedUserName && 
@@ -22,6 +22,10 @@ class LoginModel {
             throw new \Exception('Wrong name or password');
         }
         return false;    
+    }
+    
+    public function writeSession() {
+        var_dump($this->session);
     }
     
     public function isUserLoggedIn() {
