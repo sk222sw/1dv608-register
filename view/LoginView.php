@@ -1,5 +1,6 @@
 <?php
 
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -10,6 +11,7 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $message = '';
+	private static $enteredName = '';
 
 	/**
 	 * Create HTTP response
@@ -18,15 +20,13 @@ class LoginView {
 	 *
 	 * @return void BUT writes to standard output and cookies!
 	 */
-	 
+
 	public function response($isLoggedIn) {
-		echo 'dags att ta tag i sächowner nju';
-		
 		if ($isLoggedIn) {
-			$response = $this->generateLogoutButtonHTML(self::$message);				
-		}	else {
-			$response = $this->generateLoginFormHTML(self::$message);
-		}	
+			$response = $this->generateLogoutButtonHTML(self::$message);
+		} else {
+			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
+		}
 		return $response;
 	}
 
@@ -49,7 +49,7 @@ class LoginView {
 	* @param $message, String output message
 	* @return  void, BUT writes to standard output!
 	*/
-	private function generateLoginFormHTML($message) {
+	private function generateLoginFormHTML($message, $enteredName) {
 		return '
 			<form method="post"> 
 				<fieldset>
@@ -57,7 +57,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $enteredName . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -78,6 +78,13 @@ class LoginView {
 	
 	public function didUserPressLogin() {
 		return isset($_POST[self::$login]);
+	}
+	
+	public function didUserPressLogout() {
+		if (isset($_POST[self::$logout])) {
+			$_SESSION['loggedIn'] = false;
+			self::$message = 'Bye bye!';
+		}
 	}
 	
 	public function getUserName() {
