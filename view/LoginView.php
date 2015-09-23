@@ -25,22 +25,17 @@ class LoginView {
 	 * Should be called after a login attempt has been determined
 	 *
 	 * @return void BUT writes to standard output and cookies!
-	 */
-
+	 */ 
 	public function response($isLoggedIn) {
 		if ($isLoggedIn) {
-			
 			if ($this->didUserPressLogin()) $this->setMessage(); // -> welcome
-
 			$response = $this->generateLogoutButtonHTML(self::$message);
 		} 
 		else {
 			$this->setMessage(); // -> bye bye 
-			
 			self::$enteredName = $this->getUserName(); //entered name survives post
 			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
 		}
-		
 		return $response;
 	}
 
