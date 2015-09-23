@@ -6,6 +6,7 @@ class SessionModel {
     
     private $sessionValue = false;
     private static $sessionName = 'loggedIn';
+    private static $sessionMessage = 'hej';
     
     public function __construct() {
         
@@ -18,5 +19,11 @@ class SessionModel {
     public function getSessionValue() {
         return $this->sessionValue;
     }
+    
+    public function setSessionMessage() {
+        
+    }
+    
+    
     
 }

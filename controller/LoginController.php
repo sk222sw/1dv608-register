@@ -12,29 +12,29 @@ class LoginController {
     }
 
     public function startLoginStuff() {
-
-        if (!$this->view->didUserPressLogin() && !$this->view->didUserPressLogout()) {
-            if ($this->loginModel->isUserLoggedIn()) {
-                return true;
+    
+        //check if user is already logged in and did not press logout
+        if ($this->loginModel->isUserLoggedIn()) {
+            if ($this->view->didUserPressLogout()) {
+                return false;
             }
-        } else if($this->view->didUserPressLogin()) {
-            return $this->doLogin();
-        } 
-        else if ($this->loginModel->isUserLoggedIn()) {
-            $this->doLogout();
+            return true;
         }
-        // $this->view->setLogoutMessage();
-        return false;
+
+        else if ($this->view->didUserPressLogin()) {
+            return $this->authenticate();
+        }
+
     }
     
-    public function doLogin() {
+    public function authenticate() {
             try {
                 $userName = $this->view->getUserName();            
                 $password = $this->view->getPassword();
                 $user = new \model\User($userName, $password);
                 
                 if ($this->loginModel->testLogin($user)) {
-                    $this->sessionModel->setSessionValue(true);
+                    $this->loginModel->loginUser();  
                     return true;
                 }
 

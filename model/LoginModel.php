@@ -4,12 +4,15 @@ namespace model;
 
 class LoginModel {
     
-    private $isLoggedIn = false;
+    //these are my simple fake database response credentials
+    private static $isLoggedIn = false;
     private $storedUserName = 'a';
     private $storedPassword = 'p';
+    private static $storedUserId = 'user1';
+    
     private $session;
     
-    public function __construct(\model\SessionModel $session) {
+    public function __construct(\shared\SessionTool $session) {
         $this->session = $session;
     }
     
@@ -24,18 +27,20 @@ class LoginModel {
         return false;    
     }
     
-    public function writeSession() {
-        var_dump($this->session);
+    public function loginUser() {
+        self::$isLoggedIn = true;
+        $this->session->setLoginSession(self::$storedUserId, self::$isLoggedIn);
     }
     
     public function isUserLoggedIn() {
-        if (isset($_SESSION['loggedIn'])) {
-            return $_SESSION['loggedIn'];
-        }
+        self::$isLoggedIn = $this->session->getLoginSession(self::$storedUserId);
+        return self::$isLoggedIn;
     }
     
     public function logoutUser() {
         $_SESSION['loggedIn'] = false;
     }
+    
+    
     
 }
