@@ -1,6 +1,5 @@
 <?php
 
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -30,14 +29,15 @@ class LoginView {
 
 	public function response($isLoggedIn) {
 		if ($isLoggedIn) {
-			if ($this->didUserPressLogin()) {
-				$this->setMessage();
-			}
+			
+			if ($this->didUserPressLogin()) $this->setMessage(); // -> welcome
+
 			$response = $this->generateLogoutButtonHTML(self::$message);
 		} 
 		else {
-			$this->setMessage();
-			self::$enteredName = $this->getUserName();
+			$this->setMessage(); // -> bye bye 
+			
+			self::$enteredName = $this->getUserName(); //entered name survives post
 			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
 		}
 		
@@ -85,36 +85,59 @@ class LoginView {
 		';
 	}
 	
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
-	}
-	
+	/*
+	* use $_POST to check if the loginbutton was clicked
+	* return bool
+	*/
 	public function didUserPressLogin() {
 		return isset($_POST[self::$login]);
 	}
 	
+	/*
+	* use $_POST to check if the logoutbutton was clicked
+	* return bool
+	*/	
 	public function didUserPressLogout() {
-		if (isset($_POST[self::$logout])) {
-			return true;
-		}
+		return isset($_POST[self::$logout]);
 	}
 	
-	public function getUserName() {
+	/*
+	* get user name from POST
+	* return string
+	*/		
+	public function getUserName()
+	{
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
 		}
 	}
 	
-	public function getPassword() {
-		return $_POST[self::$password];
+	/*
+	* get password from POST
+	* return string
+	*/	
+	public function getPassword()
+	{
+		if (isset($_POST[self::$password])) {
+			return $_POST[self::$password];
+		}
 	}
 	
+	/********* TODO : PRG *********
+	* set header to request uri to
+	* prevent resending form data
+	* NOT YET IMPLEMENTED 
+	*/		
 	public function setHeader() {
 		header("Location: " . $_SERVER['REQUEST_URI']);
-		$this->setMessage();
+		exit();
 	}
 	
+	/*
+	* get message id from SESSION
+	* set $message with the recieved message id
+	* return void
+	*/		
 	public function setMessage() {
 		if (isset($_SESSION['flashMessage'])) {
 			$id = $_SESSION['flashMessage'];
@@ -144,4 +167,5 @@ class LoginView {
 		} 
 		unset($_SESSION['flashMessage']);
 	}
+	
 }

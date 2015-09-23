@@ -6,8 +6,8 @@ class LoginModel {
     
     //these are my simple fake database response credentials
     private static $isLoggedIn = false;
-    private $storedUserName = 'Admin';
-    private $storedPassword = 'Password';
+    private $storedUserName = 'a';
+    private $storedPassword = 'p';
     private static $storedUserId = 'user1';
     
     private $session;

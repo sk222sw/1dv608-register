@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
@@ -13,8 +13,10 @@ require_once('shared/SessionTool.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-//CREATE MODEL OBJECTS
+
+//Session helper class
 $sessionTool = new shared\SessionTool();
+
 $loginModel = new model\LoginModel($sessionTool);
 
 //CREATE OBJECTS OF THE VIEWS
@@ -25,6 +27,6 @@ $lv = new LayoutView();
 //CREATE CONTROLLER OBJECTS
 $loginController = new LoginController($v, $loginModel, $sessionTool);
 
-$isLoggedIn = $loginController->startLoginStuff();
+$isLoggedIn = $loginController->startLogin();
 
 $lv->render($isLoggedIn, $v, $dtv);

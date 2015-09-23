@@ -5,7 +5,7 @@ namespace shared;
 class SessionTool {
     
     public function __construct(){
-        
+        session_start();
     }
     
     //set session

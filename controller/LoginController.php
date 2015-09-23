@@ -11,7 +11,7 @@ class LoginController {
         $this->sessionTool = $sessionTool;
     }
 
-    public function startLoginStuff() {
+    public function startLogin() {
     
         //check if user is already logged in and did not press logout
         if ($this->loginModel->isUserLoggedIn()) {
