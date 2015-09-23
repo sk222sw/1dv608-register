@@ -34,7 +34,7 @@ class LoginController {
                 $password = $this->view->getPassword();
                 $user = new \model\User($userName, $password, $this->sessionTool);
                 
-                if ($this->loginModel->testLogin($user)) {
+                if ($this->loginModel->authenticate($user)) {
                     $this->loginModel->loginUser();
                     return true;
                 }

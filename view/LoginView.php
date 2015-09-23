@@ -142,6 +142,6 @@ class LoginView {
 					break;
 			}
 		} 
-		// unset($_SESSION['flashMessage']);
+		unset($_SESSION['flashMessage']);
 	}
 }

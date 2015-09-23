@@ -6,8 +6,8 @@ class LoginModel {
     
     //these are my simple fake database response credentials
     private static $isLoggedIn = false;
-    private $storedUserName = 'a';
-    private $storedPassword = 'p';
+    private $storedUserName = 'Admin';
+    private $storedPassword = 'Password';
     private static $storedUserId = 'user1';
     
     private $session;
@@ -16,21 +16,16 @@ class LoginModel {
         $this->session = $session;
     }
     
-    public function testLogin($user) {
-        if (strlen($user->getUserName()) == 0) {
-            echo 'hej';
+    public function authenticate($user) {
+        if ($user->getUserName() === $this->storedUserName && 
+            $user->getPassword() === $this->storedPassword) {
+            
+            return true;
+        } else {
+            $this->session->setFlashMessage(3);
+            throw new \Exception('Wrong name or password');
         }
-        
-        
-            if ($user->getUserName() === $this->storedUserName && 
-                $user->getPassword() === $this->storedPassword) {
-                
-                return true;
-            } else {
-                $this->session->setFlashMessage(3);
-                throw new \Exception('Wrong name or password');
-            }
-            return false;    
+        return false;    
     }
     
     public function loginUser() {
