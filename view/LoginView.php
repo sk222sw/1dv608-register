@@ -104,7 +104,7 @@ class LoginView {
 	{
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
-		}
+		} 
 	}
 	
 	/*
@@ -113,7 +113,7 @@ class LoginView {
 	*/	
 	public function getPassword()
 	{
-		if (isset($_POST[self::$password])) {
+		if (trim($_POST[self::$password]) !== '') {
 			return $_POST[self::$password];
 		}
 	}

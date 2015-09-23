@@ -24,6 +24,10 @@ class User {
         $this->password = $password;
     }
     
+    /*
+    * set error id to new flashmessage
+    * no return
+    */
     private function flash($id) {
         $this->session->setFlashMessage($id);
     }
