@@ -5,10 +5,10 @@ class LoginController {
     private $view;
     private $model;
     
-    public function __construct($view, $loginModel, $sessionModel) {
+    public function __construct($view, $loginModel, $sessionTool) {
         $this->view = $view;
         $this->loginModel = $loginModel;
-        $this->sessionModel = $sessionModel;
+        $this->sessionTool = $sessionTool;
     }
 
     public function startLoginStuff() {
@@ -16,6 +16,7 @@ class LoginController {
         //check if user is already logged in and did not press logout
         if ($this->loginModel->isUserLoggedIn()) {
             if ($this->view->didUserPressLogout()) {
+                $this->doLogout();
                 return false;
             }
             return true;
@@ -31,10 +32,10 @@ class LoginController {
             try {
                 $userName = $this->view->getUserName();            
                 $password = $this->view->getPassword();
-                $user = new \model\User($userName, $password);
+                $user = new \model\User($userName, $password, $this->sessionTool);
                 
                 if ($this->loginModel->testLogin($user)) {
-                    $this->loginModel->loginUser();  
+                    $this->loginModel->loginUser();
                     return true;
                 }
 
@@ -45,8 +46,7 @@ class LoginController {
     }
 
     public function doLogout(){
-        // $this->view->setLogoutMessage();
-        // return false;        
+        $this->loginModel->logoutUser();
     }
 
 }

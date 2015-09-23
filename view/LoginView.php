@@ -12,7 +12,14 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private static $message = '';
 	private static $enteredName = '';
-
+	
+	//flash messages:
+	private static $loginMessage = 'Welcome';
+	private static $logoutMessage = 'Bye bye!';
+	private static $missingUserName = 'Username is missing';
+	private static $missingPassword = 'Password is missing';
+	private static $wrongCredentials = 'Wrong name or password';
+	
 	/**
 	 * Create HTTP response
 	 *
@@ -22,26 +29,19 @@ class LoginView {
 	 */
 
 	public function response($isLoggedIn) {
-		
 		if ($isLoggedIn) {
+			if ($this->didUserPressLogin()) {
+				$this->setMessage();
+			}
 			$response = $this->generateLogoutButtonHTML(self::$message);
 		} 
-		
-		// else if($_POST) {
-		// 	// $this->setHeader();
-		// }
-		
 		else {
+			$this->setMessage();
 			self::$enteredName = $this->getUserName();
 			$response = $this->generateLoginFormHTML(self::$message, self::$enteredName);
-		} 
-		return $response;
-	}
-
-	public function flashMessage($name, $message) {
-
-		$_SESSION[$name] = $message;
+		}
 		
+		return $response;
 	}
 
 	/**
@@ -96,7 +96,6 @@ class LoginView {
 	
 	public function didUserPressLogout() {
 		if (isset($_POST[self::$logout])) {
-			$_SESSION['loggedIn'] = false;
 			return true;
 		}
 	}
@@ -111,21 +110,38 @@ class LoginView {
 		return $_POST[self::$password];
 	}
 	
-	public function getMessageId() {
-		return $_POST[self::$messageId];
-	}
-	
 	public function setHeader() {
 		header("Location: " . $_SERVER['REQUEST_URI']);
-		exit();
+		$this->setMessage();
 	}
 	
 	public function setMessage() {
-		// self::$message = $_SESSION['welcome'];
+		if (isset($_SESSION['flashMessage'])) {
+			$id = $_SESSION['flashMessage'];
+			switch ($id) {
+				case 0:
+					self::$message = '';
+					break;
+				case 1:
+					self::$message = self::$loginMessage;
+					break;
+				case 2:
+					self::$message = self::$logoutMessage;
+					break;
+				case 3:
+					self::$message = self::$wrongCredentials;
+					break;
+				case 4:
+					self::$message = self::$missingUserName;
+					break;
+				case 5:
+					self::$message = self::$missingPassword;
+					break;
+				default:
+					self::$message = '';
+					break;
+			}
+		} 
+		// unset($_SESSION['flashMessage']);
 	}
-	
-	public function setLogoutMessage() {
-		self::$message = 'Bye bye!';
-	}
-	
 }

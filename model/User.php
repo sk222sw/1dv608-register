@@ -6,19 +6,26 @@ class User {
     
     private $userName;
     private $password;
+    private $session;
     
-    public function __construct($userName, $password) {
+    public function __construct($userName, $password, $session) {
+        $this->session = $session;
 
-        if (strlen($userName) == 0) {
+        if (trim($userName) === '') {
+            $this->flash(4);
             throw new \Exception('Username is missing');
         }
-        
-        if (strlen($password) == 0) {
+        if (trim($password) === '') {
+            $this->flash(5);
             throw new \Exception('Password is missing');
         }
         
         $this->userName = $userName;
         $this->password = $password;
+    }
+    
+    private function flash($id) {
+        $this->session->setFlashMessage($id);
     }
     
     public function getUserName() {

@@ -5,7 +5,7 @@ namespace shared;
 class SessionTool {
     
     public function __construct(){
-
+        
     }
     
     //set session
@@ -14,13 +14,24 @@ class SessionTool {
     }
     
     public function getLoginSession($key) {
-        return $_SESSION[$key];
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        }
     }
     
     //unset session
     public function unsetSession($key) {
-        unset($_SESSION[$key]);
+        if (isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
     }
     
+    public function setFlashMessage($id) {
+        $_SESSION['flashMessage'] = $id;
+    }
+    
+    public function getFlashMessage(){
+        return $_SESSION['flashMessage'];
+    }
     
 }
