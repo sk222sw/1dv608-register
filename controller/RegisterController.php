@@ -10,11 +10,11 @@ class RegisterController {
     }
     
     public function doRegistration() {
-        $this->view->testFunction();
+        
     }
     
     public function didUserPressRegister() {
-        if (isset($_GET['register'])) {
+        if (isset($_GET['register=1'])) {
             return true;
         }
         return false;

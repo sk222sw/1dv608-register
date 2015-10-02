@@ -33,6 +33,10 @@ $registerController = new RegisterController($regView);
 $isLoggedIn = $loginController->startLogin();
 $pressedRegister = $registerController->didUserPressRegister();
 
-$lv->render($isLoggedIn, $v, $regView, $dtv);
+$pressedRegister;
 
-var_dump($_SERVER['REQUEST_URI']);
+if (strpos($_SERVER['REQUEST_URI'], "register=1") !== false) {
+    $pressedRegister = true;
+} else { $pressedRegister = false;}
+
+$lv->render($isLoggedIn, $pressedRegister, $v, $regView, $dtv);

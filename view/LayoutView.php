@@ -2,7 +2,7 @@
 
 class LayoutView {
   
-  public function render($isLoggedIn, LoginView $v, RegisterView $regView, DateTimeView $dtv) {
+  public function render($isLoggedIn, $pressedRegister, LoginView $v, RegisterView $regView, DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -15,8 +15,7 @@ class LayoutView {
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $v->response($isLoggedIn) . '
-                  
+              ' . $this->renderContent($isLoggedIn, $pressedRegister, $v, $regView) . '
               ' . $dtv->show() . '
           </div>
          </body>
@@ -34,11 +33,25 @@ class LayoutView {
   }
   
   private function renderRegisterLink() {
-    if (strpos($_SERVER['REQUEST_URI'], "register") !== false) {
-      return '<a href="/" name="back">Back</a>';
+    if (strpos($_SERVER['REQUEST_URI'], "register=1") !== false) {
+      return '<a href="/" name="back">Back to login</a>';
     } else {
-      return '<a href="?register" name="register">Register a new user</a>';
+      return '<a href="?register=1" name="register">Register a new user</a>';
     }
   }
   
+    private function renderContent($isLoggedIn, $pressedRegister, $v, $regView) {
+        if ($pressedRegister) {
+            //render register view
+            return $regView->generateRegisterFormHTML($pressedRegister);
+        }
+        else {
+            return $v->response($isLoggedIn);
+        }
+    }
+    
 }
+
+
+// ' . $v->response($isLoggedIn) . '
+// ' . $regView->generateRegisterFormHTML($pressedRegister) . '
