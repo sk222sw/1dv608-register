@@ -11,7 +11,7 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          
+          ' . $this->renderRegisterLink() . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
@@ -32,4 +32,13 @@ class LayoutView {
       return '<h2>Not logged in</h2>';
     }
   }
+  
+  private function renderRegisterLink() {
+    if (strpos($_SERVER['REQUEST_URI'], "register") !== false) {
+      return '<a href="/" name="back">Back</a>';
+    } else {
+      return '<a href="?register" name="register">Register a new user</a>';
+    }
+  }
+  
 }

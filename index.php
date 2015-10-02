@@ -31,5 +31,8 @@ $loginController = new LoginController($v, $loginModel, $sessionTool);
 $registerController = new RegisterController($regView);
 
 $isLoggedIn = $loginController->startLogin();
+$pressedRegister = $registerController->didUserPressRegister();
 
 $lv->render($isLoggedIn, $v, $regView, $dtv);
+
+var_dump($_SERVER['REQUEST_URI']);
