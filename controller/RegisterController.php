@@ -15,6 +15,16 @@ class RegisterController {
     
     public function didUserPressRegisterButton() {
         if ($this->view->didUserPressRegisterButton()) {
+            try {
+                
+            } catch (Exception $e) {
+            
+                //använd try-catch och om nåt går fel så set error message 
+                // beroende på vad det är för fel
+                $this->view->setErrorMessage();
+                
+            }
+            
             
         }
     }

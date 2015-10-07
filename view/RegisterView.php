@@ -61,6 +61,39 @@ class RegisterView {
                 echo $this->createTempUser()->getUserName();
         }
     }
+
+    //stolen from daniels lecture. 
+    //thrown from user create model
+    //he fulhacked class NewExceptionBla extends \Exceptiion {}; in the top of user model 
+    
+    // public function getPostedUserCredentials () {
+    
+    //      use getPostField() instead (y)_/-.-\_\m/
+    
+    //     $postUserName = $_POST[self::$userName];
+    //     $postPassword = $_POST[self::$password];
+    //     $postPasswordRepeat = $_POST[self::$passwordRepeat];
+        
+    //     try {
+    //         return new model\User($postUserName, $postPassword, 'null');
+    //     } catch (ShortUserNameException $e) {
+    //         self::$message .= 'Username has too few characters, at least 3 characters.<br />';
+    //     } catch (ShortPasswordException $e) {
+    //         self::$message .= 'Password has too few characters, at least 6 characters.<br />';
+    //     } catch (PasswordDontMatchException $e) {
+    //         self::$message .= 'Passwords do not match.';
+    //     }
+            // return null
+    // }
+    
+    //stolen without guilt from daniels lecture
+    
+    private function getPostField($field) {
+        if (isset($_POST[$field])) {
+            return trim($_POST[$field]);
+        }
+        return "";
+    }
     
     public function createTempUser() {
         $enteredUserName = $this->getUserName();
