@@ -43,7 +43,7 @@ class LayoutView {
     private function renderContent($isLoggedIn, $pressedRegister, $v, $regView) {
         if ($pressedRegister) {
             //render register view
-            return $regView->generateRegisterFormHTML($pressedRegister);
+            return $regView->response($pressedRegister);
         }
         else {
             return $v->response($isLoggedIn);
@@ -51,7 +51,3 @@ class LayoutView {
     }
     
 }
-
-
-// ' . $v->response($isLoggedIn) . '
-// ' . $regView->generateRegisterFormHTML($pressedRegister) . '

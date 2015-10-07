@@ -13,11 +13,10 @@ class RegisterController {
         
     }
     
-    public function didUserPressRegister() {
-        if (isset($_GET['register=1'])) {
-            return true;
+    public function didUserPressRegisterButton() {
+        if ($this->view->didUserPressRegisterButton()) {
+            
         }
-        return false;
     }
     
 }

@@ -29,7 +29,9 @@ class User {
     * no return
     */
     private function flash($id) {
-        $this->session->setFlashMessage($id);
+        if (isset($id)) {
+            $this->session->setFlashMessage($id);
+        }
     }
     
     public function getUserName() {

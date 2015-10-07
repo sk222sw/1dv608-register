@@ -17,7 +17,6 @@ ini_set('display_errors', 'On');
 
 //Session helper class
 $sessionTool = new shared\SessionTool();
-
 $loginModel = new model\LoginModel($sessionTool);
 
 //CREATE OBJECTS OF THE VIEWS
@@ -31,9 +30,7 @@ $loginController = new LoginController($v, $loginModel, $sessionTool);
 $registerController = new RegisterController($regView);
 
 $isLoggedIn = $loginController->startLogin();
-$pressedRegister = $registerController->didUserPressRegister();
-
-$pressedRegister;
+$pressedRegister = $registerController->didUserPressRegisterButton();
 
 if (strpos($_SERVER['REQUEST_URI'], "register=1") !== false) {
     $pressedRegister = true;
