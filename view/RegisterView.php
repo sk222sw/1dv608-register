@@ -44,22 +44,29 @@ class RegisterView {
             ";        
     }
     
-    public function didUserPressRegisterButton() {
-        if (isset($_POST['DoRegistration'])) {
-            
-            if (strlen($_POST[self::$userName]) < 3) {
-                self::$message .= 'Username has too few characters, at least 3 characters.<br />';
-            }
-            if (strlen($_POST[self::$userName]) < 6) {
-                self::$message .= 'Password has too few characters, at least 6 characters.<br />';
-            }
-            if ($_POST[self::$password] != $_POST[self::$passwordRepeat]) {
-                self::$message = 'Passwords do not match.';
-            }            
-            
-            if ($_POST[self::$userName] != '')
-                echo $this->createTempUser()->getUserName();
+    public function userPressedRegisterButton() {
+        return isset($_POST['DoRegistration']);
+    }
+
+    public function isUserValid() {
+        $isValid = true;
+        if (strlen($_POST[self::$userName]) < 3) {
+            self::$message .= 'Username has too few characters, at least 3 characters.<br />';
+            $isValid = false;
         }
+        if (strlen($_POST[self::$password]) < 6) {
+            self::$message .= 'Password has too few characters, at least 6 characters.<br />';
+            $isValid = false;
+        }
+        if ($_POST[self::$password] != $_POST[self::$passwordRepeat]) {
+            self::$message = 'Passwords do not match.';
+            $isValid = false;
+        }                   
+        return $isValid;
+    }
+    
+    public function getUser() {
+        return new \model\User($_POST[self::$userName], $_POST[self::$password], "");
     }
 
     //stolen from daniels lecture. 

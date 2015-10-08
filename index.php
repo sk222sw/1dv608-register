@@ -9,7 +9,9 @@ require_once('controller/LoginController.php');
 require_once('controller/RegisterController.php');
 require_once('model/LoginModel.php');
 require_once('model/User.php');
+require_once("model/DAL/UserDAL.php");
 require_once('shared/SessionTool.php');
+require_once('controller/MainController.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -18,6 +20,7 @@ ini_set('display_errors', 'On');
 //Session helper class
 $sessionTool = new shared\SessionTool();
 $loginModel = new model\LoginModel($sessionTool);
+$userDAL = new model\UserDAL();
 
 //CREATE OBJECTS OF THE VIEWS
 $v = new LoginView($loginModel);
@@ -27,10 +30,11 @@ $regView = new RegisterView();
 
 //CREATE CONTROLLER OBJECTS
 $loginController = new LoginController($v, $loginModel, $sessionTool);
-$registerController = new RegisterController($regView);
+$registerController = new RegisterController($regView, $userDAL);
+
 
 $isLoggedIn = $loginController->startLogin();
-$pressedRegister = $registerController->didUserPressRegisterButton();
+$pressedRegister = $registerController->userPressedRegisterButton();
 
 if (strpos($_SERVER['REQUEST_URI'], "register=1") !== false) {
     $pressedRegister = true;
