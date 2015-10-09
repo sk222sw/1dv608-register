@@ -155,6 +155,9 @@ class LoginView {
 				case 5:
 					self::$message = self::$missingPassword;
 					break;
+				case 6:
+					self::$message = "Registered new user.";
+					break;
 				default:
 					self::$message = '';
 					break;

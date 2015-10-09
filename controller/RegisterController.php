@@ -12,30 +12,19 @@ class RegisterController {
     }
     
 
-    public function userPressedRegisterButton() {
+    public function doRegistration() {
         if ($this->view->userPressedRegisterButton()) {
-            echo 'user pressed register';
-            if ($this->view->isUserValid()) {
-                echo 'is valid user';
+            
+            $userList = $this->userDAL->getAllUsers();
+
+            if ($this->view->isUserValid($userList)) {
                 $user = $this->view->getUser();
-                var_dump($user);
                 $this->userDAL->createUser($user);
+                $this->view->registerRedirect();
+                return true;
             } else {
-                echo 'is not valid user';
+                return false;
             }
-            
-            
-            try {
-                
-            } catch (Exception $e) {
-            
-                //använd try-catch och om nåt går fel så set error message 
-                // beroende på vad det är för fel
-                $this->view->setErrorMessage();
-                
-            }
-            
-            
         }
     }
     

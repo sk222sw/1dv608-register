@@ -2,7 +2,7 @@
 
 class LayoutView {
   
-  public function render($isLoggedIn, $pressedRegister, LoginView $v, RegisterView $regView, DateTimeView $dtv) {
+  public function render($isLoggedIn, $pressedRegister, $didRegisterSucceed, LoginView $v, RegisterView $regView, DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -11,11 +11,11 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          ' . $this->renderRegisterLink() . '
+          ' . $this->renderRegisterLink($didRegisterSucceed) . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $this->renderContent($isLoggedIn, $pressedRegister, $v, $regView) . '
+              ' . $this->renderContent($isLoggedIn, $pressedRegister, $didRegisterSucceed, $v, $regView) . '
               ' . $dtv->show() . '
           </div>
          </body>
@@ -32,17 +32,24 @@ class LayoutView {
     }
   }
   
-  private function renderRegisterLink() {
-    if (strpos($_SERVER['REQUEST_URI'], "register=1") !== false) {
+  public function renderRegisterLink($didRegisterSucceed) {
+    if ($didRegisterSucceed) {
+      return '<a href="/" name="register">Register a new user</a>';
+    }
+    if (strpos($_SERVER['REQUEST_URI'], "register") !== false) {
       return '<a href="/" name="back">Back to login</a>';
     } else {
-      return '<a href="?register=1" name="register">Register a new user</a>';
+      return '<a href="?register" name="register">Register a new user</a>';
     }
   }
   
-    private function renderContent($isLoggedIn, $pressedRegister, $v, $regView) {
+    private function renderContent($isLoggedIn, $pressedRegister, $didRegisterSucceed, $v, $regView) {
+      if ($didRegisterSucceed) {
+        return $v->response($isLoggedIn);
+      } else if (!$didRegisterSucceed && $pressedRegister) {
+        return $regView->generateRegisterFormHTML();
+      }
         if ($pressedRegister) {
-            //render register view
             return $regView->response($pressedRegister);
         }
         else {

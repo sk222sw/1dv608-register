@@ -42,4 +42,13 @@ class User {
         return $this->password;
     }
     
+    public function isUserNameUnique($users) {
+        foreach ($users as $user) {
+            if($user == $this->userName) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }

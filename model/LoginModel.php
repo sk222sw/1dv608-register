@@ -11,12 +11,24 @@ class LoginModel {
     private static $storedUserId = 'user1';
     
     private $session;
+    private $userDAL;
+    private $userList;
     
-    public function __construct(\shared\SessionTool $session) {
+    public function __construct(\shared\SessionTool $session, $userDAL) {
         $this->session = $session;
+        $this->userList = $userDAL->getAllUsers();
     }
     
     public function authenticate($user) {
+        foreach ($this->userList as $storedUser) {
+            if ($storedUser !== null) {
+                if ($user->getUserName() === $storedUser->getUserName() && 
+                    $user->getPassword() === $storedUser->getPassword()) {
+                    return true;    
+                }
+            }
+        }
+        
         if ($user->getUserName() === $this->storedUserName && 
             $user->getPassword() === $this->storedPassword) {
             return true;

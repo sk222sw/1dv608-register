@@ -10,26 +10,28 @@ class RegisterView {
     private static $register = 'RegisterView::Register';
     private static $message = ''; 
 	private static $messageId = 'RegisterView::Message';    
+	private static $enteredName = "";
+	private static $formAction = "/";
     
     public function response($pressedRegister) {
-        if ($pressedRegister) {
-            
-        }
-        
         return $this->generateRegisterFormHTML();
     }
     
-    private function generateRegisterFormHTML() {
+    public function registerRedirect() {
+        header("Location: /");
+    }
+    
+    public function generateRegisterFormHTML() {
             return "
             <h2>Register new user</h2>
-			<form action='?register=1' method='post' enctype='multipart/form-data'>
+			<form action='/?register' method='post' enctype='multipart/form-data'>
 				<fieldset>
 				<legend>Register a new user - Write username and password</legend>
 				
 					<p id='" . self::$messageId . "'>" . self::$message . "</p>
 					
-					<label for='" . self::$userName . "' >Username :</label>
-					<input type='text' size='20' name='" . self::$userName . "' id='" . self::$userName . "' value='' />
+					<label for='" . self::$userName . "' name='" . self::$userName . "' >Username :</label>
+					<input type='text' size='20' name='" . self::$userName . "' id='" . self::$userName . "' value='" . self::$enteredName . "' />
 					<br/>
 					
 					<label for='" . self::$password . "' >Password  :</label>
@@ -38,18 +40,33 @@ class RegisterView {
 					<label for='" . self::$passwordRepeat . "' >Repeat password  :</label>
 					<input type='password' size='20' name='" . self::$passwordRepeat . "' id='" . self::$passwordRepeat . "' value='' />
 					<br/>
-					<input id='submit' type='submit' name='DoRegistration'  value='Register' />
+					<input id='submit' type='submit' name='" . self::$register . "' value='Register' />
 					<br/>
 				</fieldset>
             ";        
     }
     
     public function userPressedRegisterButton() {
-        return isset($_POST['DoRegistration']);
+        if (isset($_POST[self::$userName])) {
+            self::$enteredName = $_POST[self::$userName];
+        }
+        return isset($_POST[self::$register]);
     }
 
-    public function isUserValid() {
+    public function isUserValid($userList) {
         $isValid = true;
+        // var_dump($userList);
+        // exit();
+        if ($isValid) {
+            foreach ($userList as $user) {
+                if ($user !== null) {
+                    if ($user->getUserName() == $_POST[self::$userName]) {
+                        self::$message = "User exists, pick another username.";
+                        $isValid = false;
+                    }
+                }
+            }
+        }
         if (strlen($_POST[self::$userName]) < 3) {
             self::$message .= 'Username has too few characters, at least 3 characters.<br />';
             $isValid = false;
@@ -61,7 +78,11 @@ class RegisterView {
         if ($_POST[self::$password] != $_POST[self::$passwordRepeat]) {
             self::$message = 'Passwords do not match.';
             $isValid = false;
-        }                   
+        } 
+        else if (preg_match('/[^A-Za-z0-9.#\\-$]/', $_POST[self::$userName])) {
+            self::$message = 'Username contains invalid characters.';
+            $isValid = false;
+        }        
         return $isValid;
     }
     
@@ -100,12 +121,6 @@ class RegisterView {
             return trim($_POST[$field]);
         }
         return "";
-    }
-    
-    public function createTempUser() {
-        $enteredUserName = $this->getUserName();
-        
-        return $user = new model\User($enteredUserName, 'temppass', "temp");
     }
     
     private function getUserName() {
