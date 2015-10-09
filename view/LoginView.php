@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -18,6 +20,7 @@ class LoginView {
 	private static $missingUserName = 'Username is missing';
 	private static $missingPassword = 'Password is missing';
 	private static $wrongCredentials = 'Wrong name or password';
+	private static $newUser = "Registered new user.";
 	
 	/**
 	 * Create HTTP response
@@ -28,7 +31,7 @@ class LoginView {
 	 */ 
 	public function response($isLoggedIn) {
 		if ($isLoggedIn) {
-			if ($this->didUserPressLogin()) $this->setMessage(); // -> welcome
+			// if ($this->didUserPressLogin()) // -> welcome
 			$response = $this->generateLogoutButtonHTML(self::$message);
 		} 
 		else {
@@ -147,16 +150,16 @@ class LoginView {
 					self::$message = self::$logoutMessage;
 					break;
 				case 3:
-					self::$message = self::$wrongCredentials;
-					break;
-				case 4:
 					self::$message = self::$missingUserName;
 					break;
-				case 5:
+				case 4:
 					self::$message = self::$missingPassword;
 					break;
+				case 5:
+					self::$message = self::$wrongCredentials;
+					break;
 				case 6:
-					self::$message = "Registered new user.";
+					self::$message = self::$newUser;
 					break;
 				default:
 					self::$message = '';

@@ -1,5 +1,7 @@
 <?php
 
+namespace controller;
+
 class LoginController {
     
     private $view;
@@ -40,7 +42,11 @@ class LoginController {
         try {
             $userName = $this->view->getUserName();            
             $password = $this->view->getPassword();
+
             $user = new \model\User($userName, $password, $this->sessionTool);
+            // if (!$user->validUserCredentials()) {
+            //     return false;
+            // }
             
             if ($this->loginModel->authenticate($user)) {
                 $this->loginModel->loginUser();

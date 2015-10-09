@@ -1,6 +1,8 @@
 <?php
 
-use model\User;
+// use model\User;
+
+namespace view;
 
 class RegisterView {
     
@@ -13,15 +15,21 @@ class RegisterView {
 	private static $enteredName = "";
 	private static $formAction = "/";
     
-    public function response($pressedRegister) {
+    public function __construct(\shared\SessionTool $session) {
+        $this->session = $session;
+    }
+    
+    public function response() {
         return $this->generateRegisterFormHTML();
     }
     
     public function registerRedirect() {
+        // $this->session->setFlashMessage(6);
+        $_SESSION['newUser'] = "new user";
         header("Location: /");
     }
     
-    public function generateRegisterFormHTML() {
+    private function generateRegisterFormHTML() {
             return "
             <h2>Register new user</h2>
 			<form action='/?register' method='post' enctype='multipart/form-data'>

@@ -1,12 +1,14 @@
 <?php
 
+namespace controller;
+
 class RegisterController {
     
     private $view;
     private $model;
     private $userDAL;
     
-    public function __construct(RegisterView $rw, model\UserDAL $ud) {
+    public function __construct(\view\RegisterView $rw, \model\UserDAL $ud) {
         $this->view = $rw;
         $this->userDAL = $ud;
     }

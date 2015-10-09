@@ -1,8 +1,12 @@
 <?php
 
+namespace view;
+
 class LayoutView {
+  private static $didRegisterSucceed = false;
+  private static $pressedRegister = false;
   
-  public function render($isLoggedIn, $pressedRegister, $didRegisterSucceed, LoginView $v, RegisterView $regView, DateTimeView $dtv) {
+  public function render($isLoggedIn, $htmlContent, RegisterView $regView, DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -11,11 +15,11 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          ' . $this->renderRegisterLink($didRegisterSucceed) . '
+          ' . $this->renderRegisterLink(self::$didRegisterSucceed) . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $this->renderContent($isLoggedIn, $pressedRegister, $didRegisterSucceed, $v, $regView) . '
+              ' . $this->renderContent($isLoggedIn, $htmlContent) . '
               ' . $dtv->show() . '
           </div>
          </body>
@@ -42,19 +46,24 @@ class LayoutView {
       return '<a href="?register" name="register">Register a new user</a>';
     }
   }
-  
-    private function renderContent($isLoggedIn, $pressedRegister, $didRegisterSucceed, $v, $regView) {
-      if ($didRegisterSucceed) {
-        return $v->response($isLoggedIn);
-      } else if (!$didRegisterSucceed && $pressedRegister) {
-        return $regView->generateRegisterFormHTML();
-      }
-        if ($pressedRegister) {
-            return $regView->response($pressedRegister);
-        }
-        else {
-            return $v->response($isLoggedIn);
-        }
+
+    private function renderContent($isLoggedIn, $htmlContent) {
+      return $htmlContent;
     }
+
+  
+    // private function renderContent($isLoggedIn, $pressedRegister, $v, $regView) {
+    //   if ($didRegisterSucceed) {
+    //     return $v->response($isLoggedIn);
+    //   } else if (!$didRegisterSucceed && $pressedRegister) {
+    //     return $regView->generateRegisterFormHTML();
+    //   }
+    //     if ($pressedRegister) {
+    //         return $regView->response($pressedRegister);
+    //     }
+    //     else {
+    //         return $v->response($isLoggedIn);
+    //     }
+    // }
     
 }

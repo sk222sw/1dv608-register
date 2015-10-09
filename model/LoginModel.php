@@ -24,19 +24,13 @@ class LoginModel {
             if ($storedUser !== null) {
                 if ($user->getUserName() === $storedUser->getUserName() && 
                     $user->getPassword() === $storedUser->getPassword()) {
+                    $this->session->setFlashMessage(1);
                     return true;    
                 }
             }
         }
-        
-        if ($user->getUserName() === $this->storedUserName && 
-            $user->getPassword() === $this->storedPassword) {
-            return true;
-        } else {
-            $this->session->setFlashMessage(3);
-            throw new \Exception('Wrong name or password');
-        }
-        return false;    
+        $this->session->setFlashMessage(5);
+        // return false;    
     }
     
     /*
